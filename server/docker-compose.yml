@@ -1,0 +1,39 @@
+version: '3.4'
+ 
+services:
+  blogsiteapi:
+    image: blogsiteapi:latest
+    container_name: blogsiteapi
+    depends_on:
+      - bspostgres
+    build:
+      context: ../blogsite
+      dockerfile: Dockerfile
+    environment:
+      BS_ConnectionStrings__DB_CONNECTION_STRING: "host=45.84.224.59;port=5432;database=bsdb;username=bsuser;password=bspass"
+      VIRTUAL_HOST: api.detree.ru
+      LETSENCRYPT_HOST: api.detree.ru
+      LETSENCRYPT_EMAIL: mail@detree.ru
+
+  bspostgres:
+    image: postgres:latest
+    container_name: bspostgres
+    restart: always
+    ports: 
+      - 5432:5432
+    volumes:
+      - db_volume:/var/lib/postgresql/data
+      - ./dbscripts/seedfolder.sql :/docker-entrypoint-initdb.d/seedfolder.sql
+      - ./dbscripts/seeditem.sql :/docker-entrypoint-initdb.d/seeditem.sql
+    environment:
+      POSTGRES_USER: bsuser
+      POSTGRES_PASSWORD: bspass
+      POSTGRES_DB: bsdb
+
+volumes:
+  db_volume:
+
+networks:
+  default:
+    external:
+      name: webproxy 

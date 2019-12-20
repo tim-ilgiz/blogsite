@@ -1,0 +1,40 @@
+version: '3.4'
+ 
+networks:
+  blogsiteapi-dev:
+    driver: bridge 
+ 
+services:
+  blogsiteapi:
+    image: blogsiteapi:latest
+    container_name: blogsiteapi
+    depends_on:
+      - bspostgres
+    build:
+      context: ../blogsite
+      dockerfile: Dockerfile
+    ports:
+      - 5225:80
+    environment:
+      BS_ConnectionStrings__DB_CONNECTION_STRING: "host=bspostgres;port=5432;database=bsdb;username=bsuser;password=bspass"
+    networks:
+      - blogsiteapi-dev  
+  
+  bspostgres:
+    image: postgres:latest
+    container_name: bspostgres
+    ports:
+      - 5432:5432
+    restart: always
+    volumes:
+      - db_volume:/var/lib/postgresql/data
+      - ./dbscripts/seedfolder.sql :/docker-entrypoint-initdb.d/seedfolder.sql
+      - ./dbscripts/seeditem.sql :/docker-entrypoint-initdb.d/seeditem.sql
+    environment:
+      POSTGRES_USER: "bsuser"
+      POSTGRES_PASSWORD: "bspass"
+      POSTGRES_DB: "bsdb"
+    networks:
+      - blogsiteapi-dev
+volumes:
+  db_volume:
