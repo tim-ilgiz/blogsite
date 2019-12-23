@@ -64,6 +64,7 @@ namespace blogsite.Models
 
             editItem.Name = item.Name;
             editItem.LinkUrl = item.LinkUrl;
+            editItem.ParentId = item.ParentId;
             editItem.Image = item.Image;
             editItem.Click = item.Click;
 
