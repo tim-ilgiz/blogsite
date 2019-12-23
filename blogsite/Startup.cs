@@ -47,7 +47,7 @@ namespace blogsite
                 app.UseDeveloperExceptionPage();
             }
             app.UseRouting();
-            app.UseCors(builder => builder.WithOrigins("https://detree.ru").AllowAnyMethod().AllowAnyHeader());
+            app.UseCors(builder => builder.WithOrigins("https://detree.ru","http://localhost:4200").AllowAnyMethod().AllowAnyHeader());
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
