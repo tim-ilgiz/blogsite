@@ -16,10 +16,16 @@ namespace blogsite.Models.Interfaces
 
         Task EditItem(Item item);
 
+        Task EditFolder(Folder folder);
+
         Task<Item> GetItem(long id);
 
         Task<Item> CreateItem(Item item);
 
+        Task<Folder> CreateFolder(Folder folder);
+
         Task DeleteItem(long id);
+
+        Task DeleteFolder(long id);
     }
 }

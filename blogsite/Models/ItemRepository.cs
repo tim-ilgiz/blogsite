@@ -71,6 +71,17 @@ namespace blogsite.Models
             await _appDbContext.SaveChangesAsync();
         }
 
+        public async Task EditFolder(Folder folder)
+        {
+            var editFolder = await _appDbContext.Folders.SingleAsync(i => i.Id == folder.Id);
+
+            editFolder.FolderName = folder.FolderName;
+            editFolder.Parent = folder.Parent;
+            editFolder.Status = folder.Status;
+
+            await _appDbContext.SaveChangesAsync();
+        }
+
         public async Task<Item> CreateItem(Item item)
         {
             await _appDbContext.Items.AddAsync(item);
@@ -79,12 +90,30 @@ namespace blogsite.Models
             return item;
         }
 
+        public async Task<Folder> CreateFolder(Folder folder)
+        {
+            await _appDbContext.Folders.AddAsync(folder);
+            await _appDbContext.SaveChangesAsync();
+
+            return folder;
+        }
+
         public async Task DeleteItem(long id)
         {
             var removeItem = await _appDbContext.Items
                                                 .AsNoTracking()
                                                 .SingleAsync(i => i.Id == id);
             _appDbContext.Remove(removeItem);
+
+            await _appDbContext.SaveChangesAsync();
+        }
+
+        public async Task DeleteFolder(long id)
+        {
+            var removeFolder = await _appDbContext.Folders
+                                                .AsNoTracking()
+                                                .SingleAsync(i => i.Id == id);
+            _appDbContext.Remove(removeFolder);
 
             await _appDbContext.SaveChangesAsync();
         }

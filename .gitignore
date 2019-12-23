@@ -55,3 +55,5 @@ MTS_Feedback.Frontend/wwwroot/
 *.diagsession
 
 blogsite/obj/
+
+blogsite/bin/

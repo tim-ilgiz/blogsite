@@ -62,11 +62,28 @@ namespace blogsite.Controllers
             return jsonItem;
         }
 
+        [HttpPost]
+        [Produces("application/json")]
+        [Route(nameof(OnAddFolder))]
+        public async Task<Folder> OnAddFolder([FromBody] Folder folder)
+        {
+            var jsonFolder = await _itemRepository.CreateFolder(folder);
+
+            return jsonFolder;
+        }
+
         [HttpDelete]
         [Route(nameof(OnDeleteItem))]
         public async Task OnDeleteItem(long id)
         {
             await _itemRepository.DeleteItem(id);
+        }
+
+        [HttpDelete]
+        [Route(nameof(OnDeleteFolder))]
+        public async Task OnDeleteFolder(long id)
+        {
+            await _itemRepository.DeleteFolder(id);
         }
 
         [HttpPost]
@@ -76,6 +93,21 @@ namespace blogsite.Controllers
             try
             {
                 await _itemRepository.EditItem(item);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
+        [HttpPost]
+        [Route(nameof(OnEditFolder))]
+        public async Task OnEditFolder([FromBody] Folder folder)
+        {
+            try
+            {
+                await _itemRepository.EditFolder(folder);
             }
             catch (Exception e)
             {
