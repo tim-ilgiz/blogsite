@@ -16,16 +16,18 @@ namespace blogsite.Models
         private IWebHostEnvironment _webHostEnvironment;
 
         private readonly ApiDbContext _appDbContext;
+        public static string GetPath { get; set; }
 
         public ItemRepository(ApiDbContext apiDbContext, IWebHostEnvironment webHostEnvironment)
         {
             _appDbContext = apiDbContext;
             _webHostEnvironment = webHostEnvironment;
+            GetPath = _webHostEnvironment.ContentRootPath;
         }
 
-        private string GetImageToBase64(long id)
+        private static string GetImageToBase64(long id)
         {
-            var image = Path.Combine(_webHostEnvironment.ContentRootPath, $"images\\imageId{id}.png");
+            var image = Path.Combine(GetPath, $"images\\imageId{id}.png");
 
             if (!File.Exists(image)) return "";
             return "data:image/jpeg;base64," + Convert.ToBase64String(System.IO.File.ReadAllBytes(image));

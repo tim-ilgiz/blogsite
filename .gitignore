@@ -53,3 +53,5 @@ MTS_Feedback.Frontend/wwwroot/
 .idea/
 *.sln.iml
 *.diagsession
+
+blogsite/obj/
