@@ -71,7 +71,7 @@ namespace blogsite.Controllers
 
         [HttpPost]
         [Route(nameof(OnEditItem))]
-        public async Task OnEditItem(Item item)
+        public async Task OnEditItem([FromBody] Item item)
         {
             try
             {
